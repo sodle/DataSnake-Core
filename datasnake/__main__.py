@@ -40,6 +40,10 @@ def print_row(timestamp, row):
     print('ROW\t{}\t{}'.format(timestamp, row))
 
 
+def print_table(table):
+    print('TABLE\t{}'.format(table))
+
+
 def print_checkpoint(timestamp):
     print('CHECKPOINT\t{}'.format(timestamp))
 
