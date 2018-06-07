@@ -18,9 +18,11 @@ Options:
 from __future__ import print_function
 import sys
 import json
+from time import time
 from docopt import docopt
 from six import iteritems
 from sqlalchemy import create_engine
+from pandas import read_sql_query
 
 
 def print_error(msg):
@@ -67,8 +69,21 @@ def list_tables(connection_string):
         print_table(table)
 
 
-def run_query(connection_string, sql_query, index=None, offset=0, output_format='dbx'):
-    pass
+def run_query(connection_string, sql_query, index=None, offset=None, output_format='dbx'):
+    try:
+        formatter = formatters[output_format]
+    except KeyError:
+        print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
+        return
+    engine = create_engine(connection_string)
+    df = read_sql_query(sql_query, engine, index_col=index)
+    if index is not None and offset is not None:
+        df = df[df.index > float(offset)]
+    for idx, row in df.iterrows():
+        timestamp = idx if index is not None else time()
+        print_row(timestamp, formatter(row))
+    if index is not None:
+        print_checkpoint(df.index.max())
 
 
 def _main():
