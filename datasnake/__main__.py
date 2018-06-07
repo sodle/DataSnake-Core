@@ -20,6 +20,7 @@ import sys
 import json
 from docopt import docopt
 from six import iteritems
+from sqlalchemy import create_engine
 
 
 def print_error(msg):
@@ -57,7 +58,13 @@ formatters = {
 
 
 def list_tables(connection_string):
-    pass
+    engine = create_engine(connection_string)
+    tables = engine.table_names()
+    print_info('Found {} tables'.format(len(tables)))
+    if len(tables) == 0:
+        print_warning('No tables found')
+    for table in tables:
+        print_table(table)
 
 
 def run_query(connection_string, sql_query, index=None, offset=0, output_format='dbx'):
