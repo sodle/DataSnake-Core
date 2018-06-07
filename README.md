@@ -14,8 +14,8 @@ DataSnake should work with any database engine supported by SQLAlchemy, includin
 ## Usage
 ```
 Usage:
-    datasnake list-tables <connection_string> [--output-format=<output_format>]
-    datasnake head-table <connection_string> <table>
+    datasnake list-tables <connection_string>
+    datasnake head-table <connection_string> <table> [--output-format=<output_format>]
     datasnake <connection_string> <sql_query> [--output-format=<output_format>]
     datasnake <connection_string> <sql_query> --index=<index> [--offset=<offset>] [--output-format=<output_format>]
     datasnake (-h | --help)
