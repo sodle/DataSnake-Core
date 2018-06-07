@@ -15,7 +15,33 @@ Options:
     --offset=<offset>                   Only fetch rows with index value strictly greater than this.
     --output-format=<output_format>     Output rows in "dbx" (Splunk DBX) or "json" format [default: dbx].
 """
+from __future__ import print_function
+import sys
 from docopt import docopt
+
+
+def print_error(msg):
+    print('ERROR\t{}'.format(msg), file=sys.stderr)
+
+
+def print_warning(msg):
+    print('WARN\t{}'.format(msg), file=sys.stderr)
+
+
+def print_info(msg):
+    print('INFO\t{}'.format(msg), file=sys.stderr)
+
+
+def print_debug(msg):
+    print('DEBUG\t{}'.format(msg), file=sys.stderr)
+
+
+def print_row(timestamp, row):
+    print('ROW\t{}\t{}'.format(timestamp, row))
+
+
+def print_checkpoint(timestamp):
+    print('CHECKPOINT\t{}'.format(timestamp))
 
 
 def list_tables(connection_string):
