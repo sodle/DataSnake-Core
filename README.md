@@ -5,12 +5,11 @@ Backbone of Splunk TA-DataSnake.
 
 ## Supported Database Drivers
 DataSnake should work with any database engine supported by SQLAlchemy, including:
- - SQLite
- - PostgreSQL
- - MySQL/MariaDB
- - Oracle
- - Microsoft SQL Server/Sybase
- - Firebird
+ - PostgreSQL (through `psycopg2` or `pg8000` driver)
+ - MySQL (through `mysql-connector-python`)
+ - Oracle (through `cx_oracle`)
+ - Microsoft SQL Server (through `pyodbc`)
+ - SQLite (through `pysqlite3`)
 
 ## Usage
 ```
