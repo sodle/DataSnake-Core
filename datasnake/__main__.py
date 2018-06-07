@@ -17,7 +17,9 @@ Options:
 """
 from __future__ import print_function
 import sys
+import json
 from docopt import docopt
+from six import iteritems
 
 
 def print_error(msg):
@@ -46,6 +48,12 @@ def print_table(table):
 
 def print_checkpoint(timestamp):
     print('CHECKPOINT\t{}'.format(timestamp))
+
+
+formatters = {
+    'dbx': lambda row: ' '.join(['{}={}'.format(k, v) for k, v in iteritems(row)]),
+    'json': lambda row: json.dumps(row)
+}
 
 
 def list_tables(connection_string):
