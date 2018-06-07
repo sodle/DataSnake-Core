@@ -2,9 +2,9 @@
 """Query and explore different types of databases quickly and easily.
 
 Usage:
+    datasnake list-tables <connection_string>
     datasnake <connection_string> <sql_query> [--output-format=<output_format>]
     datasnake <connection_string> <sql_query> --index=<index> [--offset=<offset>] [--output-format=<output_format>]
-    datasnake list-tables <connection_string>
     datasnake (-h | --help)
     datasnake --version
 
@@ -68,10 +68,10 @@ def _main():
     arguments = docopt(__doc__, version='datasnake 0.1.0')
 
     if arguments['list-tables']:
-        list_tables(arguments['connection_string'])
+        list_tables(arguments['<connection_string>'])
     else:
-        run_query(arguments['connection_string'], arguments['sql_query'], index=arguments['index'],
-                  offset=arguments['offset'], output_format=arguments['output_format'])
+        run_query(arguments['<connection_string>'], arguments['<sql_query>'], index=arguments['--index'],
+                  offset=arguments['--offset'], output_format=arguments['--output-format'])
 
 
 if __name__ == '__main__':
