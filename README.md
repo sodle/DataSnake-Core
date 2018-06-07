@@ -3,12 +3,22 @@ CLI to query and explore different types of databases quickly and easily.
 
 Backbone of Splunk TA-DataSnake.
 
+## Supported Database Drivers
+DataSnake should work with any database engine supported by SQLAlchemy, including:
+ - SQLite
+ - PostgreSQL
+ - MySQL/MariaDB
+ - Oracle
+ - Microsoft SQL Server/Sybase
+ - Firebird
+
 ## Usage
 ```
 Usage:
+    datasnake list-tables <connection_string> [--output-format=<output_format>]
+    datasnake head-table <connection_string> <table>
     datasnake <connection_string> <sql_query> [--output-format=<output_format>]
     datasnake <connection_string> <sql_query> --index=<index> [--offset=<offset>] [--output-format=<output_format>]
-    datasnake list-tables <connection_string>
     datasnake (-h | --help)
     datasnake --version
 
@@ -19,3 +29,5 @@ Options:
     --offset=<offset>                   Only fetch rows with index value strictly greater than this.
     --output-format=<output_format>     Output rows in "dbx" (Splunk DBX) or "json" format [default: dbx].
 ```
+
+`<connection_string>` is a SQLAlchemy connection string, as described [here](http://docs.sqlalchemy.org/en/latest/core/engines.html).
