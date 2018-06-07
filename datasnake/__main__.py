@@ -2,7 +2,8 @@
 """Query and explore different types of databases quickly and easily.
 
 Usage:
-    datasnake list-tables <connection_string>
+    datasnake list-tables <connection_string> [--output-format=<output_format>]
+    datasnake head-table <connection_string> <table>
     datasnake <connection_string> <sql_query> [--output-format=<output_format>]
     datasnake <connection_string> <sql_query> --index=<index> [--offset=<offset>] [--output-format=<output_format>]
     datasnake (-h | --help)
@@ -22,7 +23,7 @@ from time import time
 from docopt import docopt
 from six import iteritems
 from sqlalchemy import create_engine
-from pandas import read_sql_query
+from pandas import read_sql_query, read_sql_table, DataFrame
 
 
 def print_error(msg):
@@ -86,11 +87,26 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
         print_checkpoint(df.index.max())
 
 
+def head_table(connection_string, table, output_format='dbx'):
+    try:
+        formatter = formatters[output_format]
+    except KeyError:
+        print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
+        return
+    engine = create_engine(connection_string)
+    df = read_sql_table(table, engine)
+    for idx, row in DataFrame(df.head()).iterrows():
+        timestamp = time()
+        print_row(timestamp, formatter(row))
+
+
 def _main():
     arguments = docopt(__doc__, version='datasnake 0.1.0')
 
     if arguments['list-tables']:
         list_tables(arguments['<connection_string>'])
+    elif arguments['head-table']:
+        head_table(arguments['<connection_string>'], arguments['<table>'], output_format=arguments['--output-format'])
     else:
         run_query(arguments['<connection_string>'], arguments['<sql_query>'], index=arguments['--index'],
                   offset=arguments['--offset'], output_format=arguments['--output-format'])
