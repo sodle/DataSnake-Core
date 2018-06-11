@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='datasnake',
-    version='0.1.1',
+    version='0.1.2',
     description='CLI for fast and easy database queries, tailing, pagination, introspection. '
                 'DB engine agnostic. Backbone of Splunk TA-DataSnake.',
     author='Scott Odle (Arizona State University)',
@@ -16,7 +16,7 @@ setup(
         'pandas',
         'sqlalchemy',
         'docopt',
-        'psycopg2',
+        'psycopg2-binary',
         'pg8000',
         'mysql-connector-python',
         'cx_oracle',
