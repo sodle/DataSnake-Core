@@ -8,10 +8,12 @@ Usage:
     datasnake <connection_string> <sql_query> --index=<index> [--offset=<offset>] [--output-format=<output_format>]
     datasnake (-h | --help)
     datasnake --version
+    datasnake --env
 
 Options:
     -h --help                           Show this help.
     --version                           Show version.
+    --env                               Show installed DataSnake and database connector versions as JSON.
     --index=<index>                     Column to use as index (for sorting and checkpointing).
     --offset=<offset>                   Only fetch rows with index value strictly greater than this.
     --output-format=<output_format>     Output rows in "dbx" (Splunk DBX) or "json" format [default: dbx].
@@ -100,8 +102,51 @@ def head_table(connection_string, table, output_format='dbx'):
         print_row(timestamp, formatter(row))
 
 
+def print_env():
+    py_version = '{}.{}.{}'.format(*sys.version_info[:3])
+    version = {
+        'Python': '{} ({})'.format(py_version, sys.executable),
+        'DataSnake Core': __version__
+    }
+    try:
+        import psycopg2
+        version['PostgreSQL - psycopg2'] = psycopg2.__version__
+    except ImportError:
+        version['PostgreSQL - psycopg2'] = 'Not installed'
+    try:
+        import pg8000
+        version['PostgreSQL - pg8000'] = pg8000.__version__
+    except ImportError:
+        version['PostgreSQL - pg8000'] = 'Not installed'
+    try:
+        import mysql.connector
+        version['MySQL - mysql-connector-python'] = mysql.connector.__version__
+    except ImportError:
+        version['MySQL - mysql-connector-python'] = 'Not installed'
+    try:
+        import cx_Oracle
+        version['Oracle - cx_Oracle'] = cx_Oracle.__version__
+    except ImportError:
+        version['Oracle - cx_Oracle'] = 'Not installed'
+    try:
+        import pyodbc
+        version['MSSQL/Sybase - pyodbc'] = pyodbc.version
+    except ImportError:
+        version['MSSQL/Sybase - pyodbc'] = 'Not installed'
+    try:
+        import sqlite3
+        version['SQLite - Native Python driver'] = 'Available'
+    except ImportError:
+        version['SQLite - Native Python driver'] = 'Not available - Python was not installed with SQLite support'
+    print(json.dumps(version))
+
+
 def _main():
     arguments = docopt(__doc__, version='datasnake 0.1.0')
+
+    if arguments['--env']:
+        print_env()
+        return
 
     if arguments['list-tables']:
         list_tables(arguments['<connection_string>'])
