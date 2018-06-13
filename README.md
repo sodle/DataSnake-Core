@@ -20,10 +20,12 @@ Usage:
     datasnake <connection_string> <sql_query> --index=<index> [--offset=<offset>] [--output-format=<output_format>]
     datasnake (-h | --help)
     datasnake --version
+    datasnake --env
 
 Options:
     -h --help                           Show this help.
     --version                           Show version.
+    --env                               Show installed DataSnake and database connector versions as JSON.
     --index=<index>                     Column to use as index (for sorting and checkpointing).
     --offset=<offset>                   Only fetch rows with index value strictly greater than this.
     --output-format=<output_format>     Output rows in "dbx" (Splunk DBX) or "json" format [default: dbx].
