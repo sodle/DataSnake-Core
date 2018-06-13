@@ -28,6 +28,9 @@ from sqlalchemy import create_engine
 from pandas import read_sql_query, read_sql_table, DataFrame
 
 
+__version__ = '0.1.3'
+
+
 def print_error(msg):
     print('ERROR\t{}'.format(msg), file=sys.stderr)
 
@@ -142,7 +145,7 @@ def print_env():
 
 
 def _main():
-    arguments = docopt(__doc__, version='datasnake 0.1.0')
+    arguments = docopt(__doc__, version='datasnake {}'.format(__version__))
 
     if arguments['--env']:
         print_env()
