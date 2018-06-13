@@ -9,7 +9,7 @@ DataSnake should work with any database engine supported by SQLAlchemy, includin
  - MySQL (through `mysql-connector-python`)
  - Oracle (through `cx_oracle`)
  - Microsoft SQL Server (through `pyodbc`)
- - SQLite (through `pysqlite3`)
+ - SQLite (through the built-in sqlite3 module, or `pysqlite3`)
 
 ## Usage
 ```
