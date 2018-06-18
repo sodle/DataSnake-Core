@@ -61,7 +61,7 @@ def print_checkpoint(timestamp):
 
 formatters = {
     'dbx': lambda row: ' '.join(['{}={}'.format(k, v) for k, v in iteritems(row)]),
-    'json': lambda row: json.dumps({k: v for k, v in iteritems(row)})
+    'json': lambda row: row.to_json()
 }
 
 
