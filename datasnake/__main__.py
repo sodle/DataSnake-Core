@@ -82,7 +82,7 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
         print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
         return
     engine = create_engine(connection_string)
-    df = read_sql_query(sql_query, engine, index_col=index, parse_dates=[index])
+    df = read_sql_query(sql_query, engine, index_col=index, parse_dates=[index] if index else [])
     if index is not None and offset is not None:
         df = df[df.index > float(offset)]
     for idx, row in df.iterrows():
