@@ -24,7 +24,7 @@ import json
 from docopt import docopt
 from six import iteritems
 from sqlalchemy import create_engine
-from pandas import read_sql_query, read_sql_table, DataFrame, Timestamp
+from pandas import read_sql_query, read_sql_table, to_numeric, Series
 
 
 __version__ = '0.1.5'
@@ -47,7 +47,7 @@ def print_debug(msg):
 
 
 def print_row(timestamp, row):
-    print('ROW\t{}\t{}'.format(timestamp.timestamp(), row))
+    print('ROW\t{}\t{}'.format(to_numeric(timestamp), row))
 
 
 def print_table(table):
@@ -55,7 +55,7 @@ def print_table(table):
 
 
 def print_checkpoint(timestamp):
-    print('CHECKPOINT\t{}'.format(timestamp.timestamp()))
+    print('CHECKPOINT\t{}'.format(to_numeric(timestamp)))
 
 
 formatters = {
