@@ -73,33 +73,37 @@ def list_tables(connection_string):
 
 
 def run_query(connection_string, sql_query, index=None, offset=None, output_format='dbx'):
-    try:
-        formatter = formatters[output_format]
-    except KeyError:
+    if output_format not in ['dbx', 'json']:
         print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
         return
     engine = create_engine(connection_string)
     df = read_sql_query(sql_query, engine, index_col=index, parse_dates=[index] if index else [])
     if index is not None and offset is not None:
         df = df[df.index > float(offset)]
-    for idx, row in df.iterrows():
-        timestamp = idx if index is not None else Timestamp.utcnow()
-        print_row(timestamp, formatter(row))
+    if output_format == 'json':
+        fmt = df.to_json(orient='records', lines=True).split('\n')
+        out = Series(fmt, index=df.index)
+    else:
+        out = df.apply(format_dbx, axis=1)
+    for idx, row in out.iteritems():
+        print_row(idx, row)
     if index is not None:
         print_checkpoint(df.index.max())
 
 
 def head_table(connection_string, table, output_format='dbx'):
-    try:
-        formatter = formatters[output_format]
-    except KeyError:
+    if output_format not in ['dbx', 'json']:
         print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
         return
     engine = create_engine(connection_string)
     df = read_sql_table(table, engine)
-    for idx, row in DataFrame(df.head()).iterrows():
-        timestamp = Timestamp.utcnow()
-        print_row(timestamp, formatter(row))
+    if output_format == 'json':
+        fmt = df.to_json(orient='records', lines=True).split('\n')
+    else:
+        fmt = df.apply(format_dbx, axis=1)
+    out = Series(fmt, index=df.index)
+    for idx, row in out.iteritems():
+        print_row(idx, row)
 
 
 def print_env():
