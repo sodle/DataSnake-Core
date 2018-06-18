@@ -48,7 +48,7 @@ def print_debug(msg):
 
 
 def print_row(timestamp, row):
-    print('ROW\t{}\t{}'.format(timestamp, row))
+    print('ROW\t{}\t{}'.format(timestamp.timestamp(), row))
 
 
 def print_table(table):
@@ -56,7 +56,7 @@ def print_table(table):
 
 
 def print_checkpoint(timestamp):
-    print('CHECKPOINT\t{}'.format(timestamp))
+    print('CHECKPOINT\t{}'.format(timestamp.timestamp()))
 
 
 formatters = {
@@ -82,7 +82,7 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
         print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
         return
     engine = create_engine(connection_string)
-    df = read_sql_query(sql_query, engine, index_col=index)
+    df = read_sql_query(sql_query, engine, index_col=index, parse_dates=[index])
     if index is not None and offset is not None:
         df = df[df.index > float(offset)]
     for idx, row in df.iterrows():
