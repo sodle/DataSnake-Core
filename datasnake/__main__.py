@@ -58,10 +58,8 @@ def print_checkpoint(timestamp):
     print('CHECKPOINT\t{}'.format(to_numeric(timestamp)))
 
 
-formatters = {
-    'dbx': lambda row: ' '.join(['{}={}'.format(k, v) for k, v in iteritems(row)]),
-    'json': lambda row: row.to_json()
-}
+def format_dbx(row):
+    return ' '.join(['{}={}'.format(k, v) for k, v in iteritems(row)])
 
 
 def list_tables(connection_string):
