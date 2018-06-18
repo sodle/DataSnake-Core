@@ -25,7 +25,7 @@ from time import time
 from docopt import docopt
 from six import iteritems
 from sqlalchemy import create_engine
-from pandas import read_sql_query, read_sql_table, DataFrame
+from pandas import read_sql_query, read_sql_table, DataFrame, Timestamp
 
 
 __version__ = '0.1.4'
@@ -86,7 +86,7 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
     if index is not None and offset is not None:
         df = df[df.index > float(offset)]
     for idx, row in df.iterrows():
-        timestamp = idx if index is not None else time()
+        timestamp = idx if index is not None else Timestamp.utcnow()
         print_row(timestamp, formatter(row))
     if index is not None:
         print_checkpoint(df.index.max())
@@ -101,7 +101,7 @@ def head_table(connection_string, table, output_format='dbx'):
     engine = create_engine(connection_string)
     df = read_sql_table(table, engine)
     for idx, row in DataFrame(df.head()).iterrows():
-        timestamp = time()
+        timestamp = Timestamp.utcnow()
         print_row(timestamp, formatter(row))
 
 
