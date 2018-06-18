@@ -21,7 +21,6 @@ Options:
 from __future__ import print_function
 import sys
 import json
-from time import time
 from docopt import docopt
 from six import iteritems
 from sqlalchemy import create_engine
