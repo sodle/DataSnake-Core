@@ -27,7 +27,7 @@ from sqlalchemy import create_engine
 from pandas import read_sql_query, read_sql_table, to_numeric, Series
 
 
-__version__ = '0.1.5'
+__version__ = '0.2.0'
 
 
 def print_error(msg):

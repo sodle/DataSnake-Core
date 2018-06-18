@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='datasnake',
-    version='0.1.5',
+    version='0.2.0',
     description='CLI for fast and easy database queries, tailing, pagination, introspection. '
                 'DB engine agnostic. Backbone of Splunk TA-DataSnake.',
     author='Scott Odle (Arizona State University)',
