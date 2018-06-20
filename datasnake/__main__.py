@@ -47,7 +47,8 @@ def print_debug(msg):
 
 
 def print_row(timestamp, row):
-    print('ROW\t{}\t{}'.format(to_numeric(timestamp), row))
+    print(timestamp)
+    print('ROW\t{}\t{}'.format(timestamp, row))
 
 
 def print_table(table):
@@ -55,7 +56,7 @@ def print_table(table):
 
 
 def print_checkpoint(timestamp):
-    print('CHECKPOINT\t{}'.format(to_numeric(timestamp)))
+    print('CHECKPOINT\t{}'.format(timestamp))
 
 
 def format_dbx(row):
@@ -77,7 +78,10 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
         print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
         return
     engine = create_engine(connection_string)
-    df = read_sql_query(sql_query, engine, index_col=index, parse_dates=[index] if index else [])
+    df = read_sql_query(sql_query, engine)
+    if index is not None:
+        df['__ds_checkpoint'] = to_numeric(df[index])
+        df = df.set_index('__ds_checkpoint')
     if index is not None and offset is not None:
         df = df[df.index > float(offset)]
     if output_format == 'json':
