@@ -91,7 +91,7 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
         out = df.apply(format_dbx, axis=1)
     for idx, row in out.iteritems():
         print_row(idx, row)
-    if index is not None:
+    if index is not None and df.shape[0] > 0:
         print_checkpoint(df.index.max())
 
 
