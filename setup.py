@@ -15,13 +15,7 @@ setup(
         'six',
         'pandas',
         'sqlalchemy',
-        'docopt',
-        'psycopg2-binary',
-        'pg8000',
-        'mysql-connector-python',
-        'cx_oracle',
-        'pyodbc',
-        'pysqlite3'
+        'docopt'
     ],
     entry_points={
         'console_scripts': [
