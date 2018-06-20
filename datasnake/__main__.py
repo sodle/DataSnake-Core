@@ -27,7 +27,7 @@ from sqlalchemy import create_engine
 from pandas import read_sql_query, read_sql_table, to_numeric, Series
 
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 
 def print_error(msg):
@@ -78,7 +78,7 @@ def run_query(connection_string, sql_query, index=None, offset=None, output_form
         print_error('Invalid output format "{}" - try "dbx" or "json"'.format(output_format))
         return
     engine = create_engine(connection_string)
-    df = read_sql_query(sql_query, engine)
+    df = read_sql_query(sql_query, engine, parse_dates=[index] if index is not None else [])
     if index is not None:
         df['__ds_checkpoint'] = to_numeric(df[index])
         df = df.set_index('__ds_checkpoint')
