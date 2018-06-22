@@ -1,7 +1,7 @@
 # DataSnake
 CLI to query and explore different types of databases quickly and easily.
 
-Backbone of Splunk TA-DataSnake.
+Backbone of [Splunk TA-DataSnake](https://github.com/sodle/DataSnake-Core).
 
 ## Supported Database Drivers
 DataSnake should work with any database engine supported by SQLAlchemy, including:
